@@ -8,6 +8,9 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 
 	// A
 	'ajouter_lien_location' => 'Ajouter cette location',
+	
+    //C
+    'cfg_titre_parametrages'=>'Paramètres',
 
 	// E
 	'erreur_date_fin_inferieur'=>'La date de fin ne peut être inférieure à celle de début',			
@@ -29,7 +32,8 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'label_date_fin' => 'Date fin',
 	'label_id_objet' => 'id Objet',
 	'label_objet' => 'Objet',
-	'label_objet_loue' => 'Objet loué',	
+	'label_objet_loue' => 'Objet loué',
+	'label_objets_location' => 'Les objets qui peuvent être loués :',		
 	'label_maj' => 'MAJ',
 	'label_type_location' => 'Type de location',
 
@@ -46,6 +50,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'titre_locations' => 'Locations',
 	'titre_locations_rubrique' => 'Locations de la rubrique',
 	'titre_logo_location' => 'Logo de cette location',
+	'titre_page_configurer_location' => 'Configurer Location',	
 );
 
 ?>

@@ -10,19 +10,29 @@
 
 			[(#SAISIE{date,date_debut,obligatoire=oui,
 				label=<:location:label_date_debut:>,
+				defaut=#ARRAY{date,#DATE|affdate{d/m/Y},heure,00:00},
 				horaire=oui,
 				explication=<:location:explication_date_debut:> })]
 
 			[(#SAISIE{date,date_fin,obligatoire=oui,
 				label=<:location:label_date_fin:>,
+				defaut=#ARRAY{date,#DATE|affdate{d/m/Y},heure,00:00},
 				horaire=oui,
 				explication=<:location:explication_date_fin:> })]
-				
-            [(#SAISIE{input, objet,
-                label=<:location:label_objet:>})]
-
-            [(#SAISIE{input,id_objet,
-                label=<:location:label_id_objet:>})]
+			
+			[(#ENV{prive}|oui)
+                [(#SAISIE{
+                    selection, objet,
+                    label=<:location:label_objet:>,
+                    datas=#ENV{objets_dispo}}
+                    )]
+    
+                [(#SAISIE{
+                    selection, id_objet,
+                    label=<:location:id_objet:>,
+                    datas=#ENV{id_objets_dispo}}
+                    )]
+                ]
 
             [(#REM) Désactive pour le moment en attendat de définir comment le traiter
 			[(#SAISIE{input, type_location,

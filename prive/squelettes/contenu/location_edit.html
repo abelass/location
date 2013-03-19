@@ -1,0 +1,30 @@
+[(#ID_OBJET|oui)
+	[(#AUTORISER{modifier,location,#ID_LOCATION}|sinon_interdire_acces)]
+][(#ID_OBJET|non)
+	[(#AUTORISER{creer,location}|sinon_interdire_acces)]
+]
+ 
+#SET{redirect,#ENV{redirect}|sinon{#ID_LOCATION|?{#ID_LOCATION|generer_url_entite{location},#URL_ECRIRE{locations}}}}
+
+<div class='cadre-formulaire-editer'>
+<div class="entete-formulaire">
+	[(#ID_LOCATION|oui)
+	[(#GET{redirect}|icone_verticale{Retour,location,'',left retour[(#ENV{retourajax,''}|oui)ajax preload]})]
+	]
+	[
+		[(#ID_LOCATION|?{<:location:icone_modifier_location:>,<:location:icone_creer_location:>})]
+		<h1>(#ENV{titre,#INFO_DATE_DEBUT{location,#ID_LOCATION}|sinon{<:info_sans_titre:>}})</h1>
+	]
+</div>
+
+#SET{redirect,#ENV{redirect,#ID_LOCATION|generer_url_entite{location}}}
+[(#ENV{retourajax,''}|oui)
+	#SET{redirect,'javascript:if (window.jQuery) jQuery(".entete-formulaire .retour a").followLink();'}
+	<div class="ajax">
+]
+		[(#FORMULAIRE_EDITER_LOCATION{#ENV{id_location,oui}, #GET{redirect}, #ENV{associer_objet}})]
+[(#ENV{retourajax,''}|oui)
+	</div>
+	<script type="text/javascript">/*<!\[CDATA\[*/reloadExecPage('#ENV{exec}');/*\]\]>*/</script>
+]
+</div>

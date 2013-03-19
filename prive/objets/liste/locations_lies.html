@@ -1,0 +1,62 @@
+[(#SET{defaut_tri,#ARRAY{
+	multi date_debut,1,
+	id_location,1
+}})
+]
+#SET{selection,#ENV**{selection,#ENV{objet_source}|lister_objets_lies{#ENV{objet},#ENV{id_objet},#ENV{_objet_lien}}}}
+#SET{debut,#ENV{debutlocl,#EVAL{_request("debutlocl");}}}
+<B_liste_locations>
+[(#REM) En cas de pagination indirecte @32, il faut refaire le set car la boucle
+a mis a jour la valeur avec la page reelle]
+#SET{debut,#ENV{debutlocl,#EVAL{_request("debutlocl");}}}
+#SET{afficher_lettres,#TRI|=={'multi date_debut'}|oui}
+#ANCRE_PAGINATION
+<div class="liste-objets liste-objets-lies locations">
+<table class='spip liste'>
+[<caption><strong class="caption">(#ENV*{titre,#GRAND_TOTAL|singulier_ou_pluriel{location:info_1_location,location:info_nb_locations}})</strong></caption>]
+	<thead>
+		#SET{p,''}
+		<BOUCLE_lettre(LOCATIONS){tout}{id_location IN #GET{selection}}{where?}{statut?}
+			{tri #ENV{par,multi date_debut},#GET{defaut_tri}}{id_location==#GET{afficher_lettres}|?{'.*','A'}}>[
+		(#DATE_DEBUT**|extraire_multi|initiale|unique|oui)
+		[(#SET{p,#GET{p}|concat{
+		#SELF|parametre_url{debutlocl,@#ID_LOCATION}|ancre_url{paginationlocl}|afficher_initiale{#DATE_DEBUT**|extraire_multi|initiale{},#COMPTEUR_BOUCLE,#GET{debut},#ENV{nb,10}}
+		}})]
+		]#SAUTER{#ENV{nb,10}|moins{#COMPTEUR_BOUCLE|=={1}|?{2,1}}}</BOUCLE_lettre>[
+		(#SET{p,
+			#GET{p}|concat{
+				#REM|afficher_initiale{#REM,#TOTAL_BOUCLE,#GET{debut},#ENV{nb,10}}
+			}
+		})]</B_lettre>
+		[<tr><td colspan="4"><p class='pagination'>(#GET{p})</p></td></tr>]
+
+		<tr class='first_row'>
+			<th class='statut' scope='col'>[(#TRI{statut,<span title="<:lien_trier_statut|attribut_html:>">#</span>,ajax})]</th> 
+			<th class='date_debut' scope='col'>[(#TRI{multi date_debut,<:location:label_date_debut:>,ajax})]</th>
+			<th class='action' scope='col'></th>
+		</tr>
+	</thead>
+	<tbody>
+	<BOUCLE_liste_locations(LOCATIONS){id_location IN #GET{selection}}{statut?}
+		{tri #ENV{par,multi date_debut},#GET{defaut_tri}}{pagination #ENV{nb,10} locl}>
+		<tr class="[(#COMPTEUR_BOUCLE|alterner{row_odd,row_even})][ (#EXPOSE|unique)][ (#DATE_DEBUT**|extraire_multi|initiale|=={#ENV{i}}|?{on}|unique)][(#ID_LOCATION|=={#ENV{id_lien_ajoute}}|oui)append]">
+			<td class='statut'>[(#STATUT|puce_statut{location})]</td> 
+			<td class='date_debut'>[(#LOGO_LOCATION|image_reduire{20,20})]<a href="[(#ID_LOCATION|generer_url_entite{location})]">#DATE_DEBUT</a></td>
+
+			<td class='action'>
+				[(#ENV{editable}|oui)
+					<button class="button link delete" name="supprimer_lien\[location-#ID_LOCATION-#OBJET-#ID_OBJET\]" value="X"><:location:retirer_lien_location:> [(#CHEMIN_IMAGE{supprimer-12.png}|balise_img{'X'})]</button>
+				]
+			</td>
+		</tr>
+	</BOUCLE_liste_locations>
+	</tbody>
+</table>
+[<p class='pagination'>(#PAGINATION{prive})</p>]
+[(#GRAND_TOTAL|>{3}|oui)<div class="action"><button class="button link" name="supprimer_lien\[location-*-#OBJET-#ID_OBJET\]" value="X"><:location:retirer_tous_liens_locations:> [(#CHEMIN_IMAGE{supprimer-8.png}|balise_img{'X'})]</button></div>]
+</div>
+</B_liste_locations>
+<div class="liste-objets liste-objets-lies LOCATIONS caption-wrap">
+	<strong class="caption">[(#ENV*{titre,<:location:info_aucun_location:>})]</strong>
+</div>
+<//B_liste_locations>

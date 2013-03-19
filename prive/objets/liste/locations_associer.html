@@ -1,0 +1,71 @@
+[(#SET{defaut_tri,#ARRAY{
+	multi date_debut,1,
+	id_location,1
+}})
+]
+#SET{exclus,#ENV**{exclus,#ENV{objet_source}|lister_objets_lies{#ENV{objet},#ENV{id_objet},#ENV{_objet_lien}}}}
+#SET{debut,#ENV{debutloca,#EVAL{_request("debutloca");}}}
+<B_liste_locations>
+[(#REM) En cas de pagination indirecte @32, il faut refaire le set car la boucle
+a mis a jour la valeur avec la page reelle]
+#SET{debut,#ENV{debutloca,#EVAL{_request("debutloca");}}}
+#SET{afficher_lettres,#TRI|=={'multi date_debut'}|oui}
+#ANCRE_PAGINATION
+<div class="liste-objets liste-objets-associer locations">
+<table class='spip liste'>
+[<caption><span class="caption"><strong>(#ENV*{titre,#GRAND_TOTAL|singulier_ou_pluriel{location:info_1_location,location:info_nb_locations}})</strong>
+<span class="recherche">
+	<label for="recherche-#ENV{id}"><:info_rechercher_02:></label>
+	<input type="text" class="recherche" name="recherche" id="recherche-#ENV{id}" value="#ENV{recherche}" />
+	<input type="submit" class="tout_voir" name="tout_voir" value="<:info_tout_afficher:>" />
+</span>
+</span>
+</caption>]
+	<thead>
+		#SET{p,''}
+		<BOUCLE_lettre(LOCATIONS){tout}{!id_location IN #GET{exclus}}{where?}{recherche?}{statut?}
+			{tri #ENV{par,multi date_debut},#GET{defaut_tri}}{id_location==#GET{afficher_lettres}|?{'.*','A'}}>[
+		(#DATE_DEBUT**|extraire_multi|initiale|unique|oui)
+		[(#SET{p,#GET{p}|concat{
+		#SELF|parametre_url{debutloca,@#ID_LOCATION}|ancre_url{paginationloca}|afficher_initiale{#DATE_DEBUT**|extraire_multi|initiale{},#COMPTEUR_BOUCLE,#GET{debut},#ENV{nb,10}}
+		}})]
+		]#SAUTER{#ENV{nb,10}|moins{#COMPTEUR_BOUCLE|=={1}|?{2,1}}}</BOUCLE_lettre>[
+		(#SET{p,
+			#GET{p}|concat{
+				#REM|afficher_initiale{#REM,#TOTAL_BOUCLE,#GET{debut},#ENV{nb,10}}
+			}
+		})]</B_lettre>
+		[<tr><td colspan="3"><p class='pagination'>(#GET{p})</p></td></tr>]
+	
+		<tr class='first_row'>
+			<th class='statut' scope='col'>[(#TRI{statut,<span title="<:lien_trier_statut|attribut_html:>">#</span>,ajax})]</th> 
+			<th class='date_debut' scope='col'>[(#TRI{multi date_debut,<:location:label_date_debut:>,ajax})]</th>
+			<th class='action' scope='col'></th>
+		</tr>
+	</thead>
+	<tbody>
+	<BOUCLE_liste_locations(LOCATIONS){!id_location IN #GET{exclus}}{where?}{recherche?}{statut?}
+		{tri #ENV{par,multi date_debut},#GET{defaut_tri}}{pagination #ENV{nb,10} loca}>
+		<tr class="[(#COMPTEUR_BOUCLE|alterner{row_odd,row_even})][ (#EXPOSE|unique)][ (#DATE_DEBUT**|extraire_multi|initiale|=={#ENV{i}}|?{on}|unique)]">
+			<td class='statut'>[(#STATUT|puce_statut{location})]</td> 
+			<td class='date_debut'>[(#LOGO_LOCATION|image_reduire{20,20})]<a href="[(#ID_LOCATION|generer_url_entite{location})]">#DATE_DEBUT</a></td>
+			<td class='action'>
+				<button class="button link add" name="ajouter_lien\[location-#ID_LOCATION-#OBJET-#ID_OBJET\]" value="+"><:location:ajouter_lien_location:> [(#CHEMIN_IMAGE{ajouter-12.png}|balise_img{'+'})]</button>
+			</td>
+		</tr>
+	</BOUCLE_liste_locations>
+	</tbody>
+</table>
+[<p class='pagination'>(#PAGINATION{prive})</p>]
+</div>
+</B_liste_locations>[(#ENV{recherche}|oui)
+<div class="liste-objets liste-objets-associer locations caption-wrap">
+<span class="caption"><strong>[(#VAL{info_recherche_auteur_zero}|_T{#ARRAY{cherche_auteur,#ENV{recherche}}})]</strong>
+<span class="recherche">
+	<label for="recherche-#ENV{id}"><:info_rechercher_02:></label>
+	<input type="text" class="recherche" name="recherche" id="recherche-#ENV{id}" value="#ENV{recherche}" />
+	<input type="submit" class="tout_voir" name="tout_voir" value="<:info_tout_afficher:>" />
+</span>
+</span>
+</div>
+]<//B_liste_locations>

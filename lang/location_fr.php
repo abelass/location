@@ -24,6 +24,8 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	// L
 	'label_date_debut' => 'Date début',
 	'label_date_fin' => 'Date fin',
+	'label_id_location' => 'Id Objet',
+	'label_location' => 'Objet',
 	'label_maj' => 'MAJ',
 	'label_type_location' => 'Type de location',
 

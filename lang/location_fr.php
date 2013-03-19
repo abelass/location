@@ -28,6 +28,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'info_nb_locations' => '@nb@ locations',
 
 	// L
+	'label_commentaire' => 'Commentaire',	
 	'label_date_debut' => 'Date début',
 	'label_date_fin' => 'Date fin',
 	'label_id_objet' => 'id Objet',

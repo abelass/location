@@ -140,7 +140,6 @@ function formulaires_editer_location_verifier_dist($id_location='new', $retour='
             if(!$titre=generer_info_entite($id_objet,$objet,'titre'))$erreurs['id_objet']=_T('location:erreur_id_objet_objet_inexistant',array('id_objet'=>$id_objet,'objet'=>$objet));
             }
             set_request('titre',$titre);
-            echo _request('titre');
         }
     
 

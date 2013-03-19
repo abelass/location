@@ -29,6 +29,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'label_date_fin' => 'Date fin',
 	'label_id_objet' => 'id Objet',
 	'label_objet' => 'Objet',
+	'label_objet_loue' => 'Objet loué',	
 	'label_maj' => 'MAJ',
 	'label_type_location' => 'Type de location',
 

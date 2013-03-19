@@ -7,12 +7,12 @@
 
 [<div class="champ contenu_date_debut[ (#DATE_DEBUT*|strlen|?{'',vide})]">
 	<label><:location:label_date_debut:> : </label>
-	<span dir='#LANG_DIR' class='#EDIT{date_debut} date_debut'>(#DATE_DEBUT)</span>
+	<span dir='#LANG_DIR' class='#EDIT{date_debut} date_debut'>(#DATE_DEBUT|affdate{d-m-Y G:i:s})</span>
 </div>]
 
 [<div class="champ contenu_date_fin[ (#DATE_FIN*|strlen|?{'',vide})]">
 	<label><:location:label_date_fin:> : </label>
-	<span dir='#LANG_DIR' class='#EDIT{date_fin} date_fin'>(#DATE_FIN)</span>
+	<span dir='#LANG_DIR' class='#EDIT{date_fin} date_fin'>(#DATE_FIN|affdate{d-m-Y G:i:s})</span>
 </div>]
 
 [<div class="champ contenu_type_location[ (#TYPE_LOCATION*|strlen|?{'',vide})]">
@@ -25,14 +25,9 @@
 	<span dir='#LANG_DIR' class='#EDIT{maj} maj'>(#MAJ)</span>
 </div>]
 
-[<div class="champ contenu_objet[ (#OBJET*|strlen|?{'',vide})]">
-	<label><:location:label_objet:> : </label>
-	<span dir='#LANG_DIR' class='#EDIT{objet} objet'>(#OBJET)</span>
-</div>]
 
-[<div class="champ contenu_id_objet[ (#ID_OBJET*|strlen|?{'',vide})]">
-	<label><:location:label_id_objet:> : </label>
-	<span dir='#LANG_DIR' class='#EDIT{id_objet} id_objet'>(#ID_OBJET)</span>
-</div>]
-
+<div class="champ contenu_objet[ (#OBJET*|strlen|?{'',vide})]">
+	<label><:location:label_objet_loue:> : </label>
+    <a href="[(#URL_ECRIRE{[(#OBJET)],[(#OBJET|table_valeur{id_table_objet}|concat{=#ID_OBJET})]})]">#INFO_TITRE{#OBJET,#ID_OBJET}</a>
+</div>
 </BOUCLE_location>

@@ -89,7 +89,8 @@ function formulaires_editer_location_charger_dist($id_location='new', $retour=''
     }
     if(_request('exec'))$valeurs['prive']=_request('exec');
     if(_request('id_objet'))$valeurs['_hidden'].='<input type="hidden" name="id_objet" value="'._request('id_objet').'"/>';
-    if(_request('objet'))$valeurs['_hidden'].='<input type="hidden" name="id_objet" value="'._request('objet').'"/>';    
+    if(_request('objet'))$valeurs['_hidden'].='<input type="hidden" name="id_objet" value="'._request('objet').'"/>'; 
+    $valeurs['_hidden'].='<input type="hidden" name="statut" value="publie"/>'; 
 	return $valeurs;
 }
 
@@ -119,7 +120,7 @@ function formulaires_editer_location_charger_dist($id_location='new', $retour=''
  *     Tableau des erreurs
  */
 function formulaires_editer_location_verifier_dist($id_location='new', $retour='', $associer_objet='', $lier_trad=0, $config_fonc='', $row=array(), $hidden=''){
-    
+    $erreurs=array();
         // verifier et changer en datetime sql la date envoyee
     $verifier = charger_fonction('verifier', 'inc');
     $champs = array('date_debut','date_fin');
@@ -137,8 +138,11 @@ function formulaires_editer_location_verifier_dist($id_location='new', $retour='
       
     }
     }
-
-	$erreurs = formulaires_editer_objet_verifier('location',$id_location, array('date_debut', 'date_fin','objet','id_objet'));
+    
+    
+	$erreurs=array_merge($erreurs,formulaires_editer_objet_verifier('location',$id_location, array('date_debut', 'date_fin','objet','id_objet')));
+    
+    if(_request('date_debut')>=_request('date_fin'))$erreurs['date_fin'] = _T('location:erreur_date_fin_inferieur');
     
     if($objet=_request('objet')){
         // tester si l'objet est admis
@@ -160,12 +164,18 @@ function formulaires_editer_location_verifier_dist($id_location='new', $retour='
             include_spip('inc/texte');
             $data_objet=lister_tables_objets_sql($table);
             if(!$titre=generer_info_entite($id_objet,$objet,'titre'))$erreurs['id_objet']=_T('location:erreur_id_objet_objet_inexistant',array('id_objet'=>$id_objet,'objet'=>$objet));
+            
+            $verifier_reservations=charger_fonction('verifier_reservations','inc');
+            
+    
+            $erreur_reservation=$verifier_reservations($objet,$id_objet,_request('date_debut'),_request('date_fin'),$id_location);
+            if($erreur_reservation)$erreurs['date_fin'] = _T('location:erreur_objet',array('objets_dispo'=>$objets_dispo));
             }
             set_request('titre',$titre);
         }
-    
 
-    if(_request('date_debut')>=_request('date_fin'))$erreurs['date_fin'] = _T('location:erreur_date_fin_inferieur');
+
+    $erreurs['titre']='ok';
 
     return $erreurs;
 }
@@ -196,7 +206,6 @@ function formulaires_editer_location_verifier_dist($id_location='new', $retour='
  *     Retours des traitements
  */
 function formulaires_editer_location_traiter_dist($id_location='new', $retour='', $associer_objet='', $lier_trad=0, $config_fonc='', $row=array(), $hidden=''){
-    echo _request('titre').'ok';
     
 	$res = formulaires_editer_objet_traiter('location',$id_location,'',$lier_trad,$retour,$config_fonc,$row,$hidden);
  

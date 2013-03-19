@@ -10,6 +10,9 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'ajouter_lien_location' => 'Ajouter cette location',
 
 	// E
+	'erreur_date_fin_inferieur'=>'La date de fin ne peut être inférieure à celle de début',			
+	'erreur_id_objet_objet_inexistant'=>'Aucun objet existe pour l\'objet "@objet@  @id_objet@"',	
+	'erreur_objet'=>'Cet objet n\'est pas disponible, les objets disponibles sont : @objets_dispo@ !',
 	'explication_date_debut' => 'jj/mm/YYYY',
 	'explication_date_fin' => 'jj/mm/YYYY',
 
@@ -24,8 +27,8 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	// L
 	'label_date_debut' => 'Date début',
 	'label_date_fin' => 'Date fin',
-	'label_id_location' => 'Id Objet',
-	'label_location' => 'Objet',
+	'label_id_objet' => 'id Objet',
+	'label_objet' => 'Objet',
 	'label_maj' => 'MAJ',
 	'label_type_location' => 'Type de location',
 

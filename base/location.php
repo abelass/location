@@ -49,6 +49,8 @@ function location_declarer_tables_objets_sql($tables) {
 			"date_fin"           => "datetime NOT NULL DEFAULT '0000-00-00 00:00:00'",
 			"type_location"      => "varchar(50) NOT NULL DEFAULT ''",
 			"maj"                => "TIMESTAMP",
+			"objet"              => "varchar(25) NOT NULL DEFAULT ''",
+			"id_objet"           => "int(11) NOT NULL DEFAULT 0",
 			"statut"             => "varchar(20)  DEFAULT '0' NOT NULL", 
 			"maj"                => "TIMESTAMP"
 		),
@@ -60,7 +62,7 @@ function location_declarer_tables_objets_sql($tables) {
 		 #'date' => "",
 		'champs_editables'  => array('date_debut', 'date_fin', 'maj'),
 		'champs_versionnes' => array('date_debut', 'date_fin', 'type_location', 'maj'),
-		'rechercher_champs' => array("type_location" => 4),
+		'rechercher_champs' => array("type_location" => 4, "objet" => 4, "id_objet" => 4),
 		'tables_jointures'  => array(),
 		'statut_textes_instituer' => array(
 			'prepa'    => 'texte_statut_en_cours_redaction',

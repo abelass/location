@@ -9,7 +9,7 @@
 	schema="1.0.0" 
 >
 	<!--
-		Paquet généré le 2013-03-19 09:39:43
+		Paquet généré le 2013-03-19 09:55:04
 		(Vous pouvez bien entendu supprimer ces commentaires) 
 	-->
 
@@ -40,6 +40,7 @@
 	-->
 
 	<necessite nom="saisies" compatibilite="[1.24.0;]" /> 
+	<necessite nom="verifier" compatibilite="[1.0.2;]" /> 	
 
 	<pipeline nom="autoriser" inclure="location_autorisations.php" /> 
 

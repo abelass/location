@@ -1,0 +1,46 @@
+[(#AUTORISER{voir,location,#ID_LOCATION}|sinon_interdire_acces)]
+<BOUCLE_location(LOCATIONS){id_location}{statut==.*}{si #ENV{exec}|=={location}}>
+[(#BOITE_OUVRIR{[
+	[(#AUTORISER{modifier,location,#ID_LOCATION})
+		[(#ID_LOCATION|afficher_qui_edite{location}|non)
+			[(#URL_ECRIRE{location_edit,id_location=#ID_LOCATION}|icone_verticale{<:location:icone_modifier_location:>,location,edit,right ajax preload})]
+		]
+		[(#ID_LOCATION|afficher_qui_edite{location}|oui)
+			[(#URL_ECRIRE{location_edit,id_location=#ID_LOCATION}|icone_verticale{#ID_LOCATION|afficher_qui_edite{location},warning-24,'',right edition_deja ajax preload})]
+		]
+	]
+
+	<h1>[(#RANG). ](#|sinon{<:info_sans_titre:>})[(#CHEMIN_IMAGE{location-24.png}|balise_img{location,cadre-icone})]</h1>
+
+],simple fiche_objet})]
+
+<div class="ajax">
+	#FORMULAIRE_DATER{location,#ID_LOCATION}
+</div>
+
+<!--affiche_milieu-->
+
+<div id="wysiwyg">
+<INCLURE{fond=prive/objets/contenu/location,id=#ID_LOCATION,id_location=#ID_LOCATION,virtuel=oui,ajax=wysiwyg,wysiwyg=1}>
+</div>
+
+<div class="nettoyeur"></div>
+
+[(#AUTORISER{modifier,location,#ID_LOCATION})
+	[(#ID_LOCATION|afficher_qui_edite{location}|non)
+		[(#URL_ECRIRE{location_edit,id_location=#ID_LOCATION}|icone_verticale{<:location:icone_modifier_location:>,location,edit,right ajax preload})]
+	]
+	[(#ID_LOCATION|afficher_qui_edite{location}|oui)
+		[(#URL_ECRIRE{location_edit,id_location=#ID_LOCATION}|icone_verticale{#ID_LOCATION|afficher_qui_edite{location},warning-24,'',right edition_deja ajax preload})]
+	]
+]
+
+#PIPELINE{afficher_complement_objet,#ARRAY{args,#ARRAY{type,location,id,#ID_LOCATION},data,'<div class="nettoyeur"></div>'}}
+
+#BOITE_FERMER
+[(#EVAL{_AJAX}|oui)
+	<script type="text/javascript">/*<!\\[CDATA\\[*/reloadExecPage('#ENV{exec}','#navigation,#chemin');/*\\]\\]>*/</script>
+]
+</BOUCLE_location>
+[(#ENV**{exec}|=={location_edit}|?{#INCLURE{fond=prive/squelettes/contenu/location_edit,redirect='',env,retourajax=oui},#REM|sinon_interdire_acces})]
+<//B_location>

@@ -1,0 +1,28 @@
+<div class='formulaire_spip formulaire_editer formulaire_#FORM formulaire_#FORM-#ENV{id_location,nouveau}'>
+	[<p class="reponse_formulaire reponse_formulaire_ok">(#ENV**{message_ok})</p>]
+	[<p class="reponse_formulaire reponse_formulaire_erreur">(#ENV*{message_erreur})</p>]
+
+	[(#ENV{editable})
+	<form method='post' action='#ENV{action}'><div>
+		#ACTION_FORMULAIRE{#ENV{action}}
+		<input type='hidden' name='id_location' value='#ENV{id_location}' />
+		<ul>
+
+			[(#SAISIE{date, date_debut, obligatoire=oui,
+				label=<:location:label_date_debut:>,
+				explication=<:location:explication_date_debut:> })]
+
+			[(#SAISIE{date, date_fin, obligatoire=oui,
+				label=<:location:label_date_fin:>,
+				explication=<:location:explication_date_fin:> })]
+
+			[(#SAISIE{input, type_location,
+				label=<:location:label_type_location:>})]
+
+		</ul>
+		[(#REM) ajouter les saisies supplementaires : extra et autre, a cet endroit ]
+		<!--extra-->
+		<p class="boutons"><input type='submit' class='submit' value='<:bouton_enregistrer:>' /></p>
+	</div></form>
+	]
+</div>

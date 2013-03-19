@@ -1,0 +1,28 @@
+<BOUCLE_location(LOCATIONS){id_location=#ENV{id}}{statut?}>
+<div class='infos'>
+[(#SET{texte_objet,<:location:titre_location:>})]
+<div class='numero'><:titre_cadre_numero_objet{objet=#GET{texte_objet}}:><p>#ID_LOCATION</p></div>
+
+[(#FORMULAIRE_INSTITUER_OBJET{locations,#ID_LOCATION})]
+
+[(#REM)
+
+	Bouton voir en ligne
+
+]
+<BOUCLE_publie(LOCATIONS){id_location}>
+	[(#VAL{redirect}
+		|generer_url_action{type=locations&id=#ID_LOCATION}
+		|parametre_url{var_mode,calcul}
+		|icone_horizontale{<:icone_voir_en_ligne:>,racine})]
+</BOUCLE_publie>
+	[(#AUTORISER{previsualiser,locations,#ID_LOCATION,'',#ARRAY{statut,#STATUT}})
+		[(#VAL{redirect}
+			|generer_url_action{type=locations&id=#ID_LOCATION}
+			|parametre_url{var_mode,preview}
+			|icone_horizontale{<:previsualiser:>,preview})]
+	]
+<//B_publie>
+
+</div>
+</BOUCLE_location>

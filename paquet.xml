@@ -1,0 +1,53 @@
+<paquet
+	prefix="location"
+	categorie="communication"
+	version="1.0.0"
+	etat="dev"
+	compatibilite="[3.0.6;3.0.*]"
+	logo="prive/themes/spip/images/location-64.png"
+	documentation=""
+	schema="1.0.0" 
+>
+	<!--
+		Paquet généré le 2013-03-19 09:39:43
+		(Vous pouvez bien entendu supprimer ces commentaires) 
+	-->
+
+	<nom>Location</nom>
+
+	<!-- cette balise peut être présente plusieurs fois s'il y a plusieurs auteurs --> 
+	<auteur lien='http://mychacra.net/'>Rainer Müller</auteur>
+
+	<licence>GNU/GPL</licence>
+
+	<!--
+		Exemple de commandes
+		* dependances
+		<necessite nom="saisies" compatibilite="[1.21.0;]" />
+		<utilise nom="saisies" compatibilite="[1.21.0;]" />
+		<lib nom="simplehtmldom" lien="http://chemin_vers_archive.zip" />
+		* pipelines
+		<pipeline nom="autoriser" inclure="location_autorisations.php" />
+		<pipeline nom="insert_head" inclure="location_pipelines.php" />
+		* declarer un pipeline 
+		<pipeline nom="mon_pipeline" action="" />
+		* parents de menus de SPIP :
+				menu_accueil (à éviter), menu_edition, menu_publication,
+				menu_activite, menu_squelette, menu_administration, menu_configuration 
+		<menu nom="location" titre="location:location_titre" parent="menu_edition"  icone="images/location-16.png" />
+		* parents d'onglets... configuration, plugins, statistiques, ... 
+		<onglet nom="location" titre="location:location_titre" parent="configuration" icone="images/location-24.png" />
+	-->
+
+	<necessite nom="saisies" compatibilite="[1.24.0;]" /> 
+
+	<pipeline nom="autoriser" inclure="location_autorisations.php" /> 
+
+	<pipeline nom="declarer_tables_objets_sql" inclure="base/location.php" /> 
+	<pipeline nom="declarer_tables_interfaces" inclure="base/location.php" /> 
+	<pipeline nom="affiche_milieu" inclure="location_pipelines.php" /> 
+	<pipeline nom="affiche_auteurs_interventions" inclure="location_pipelines.php" /> 
+
+	<menu nom="locations" titre="location:titre_locations" parent="menu_edition" icone="images/location-16.png" action="locations" /> 
+	<menu nom="location_creer" titre="location:icone_creer_location" parent="outils_rapides" icone="images/location-new-16.png" action="location_edit" parametres="new=oui" /> 
+</paquet>

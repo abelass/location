@@ -1,0 +1,8 @@
+#FORMULAIRE_RECHERCHE_ECRIRE{#SELF,ajax}
+<div class="nettoyeur"></div>
+
+<INCLURE{fond=prive/objets/liste/locations, par=date_debut, env, ajax, sinon=<:location:info_aucun_location:>}>
+
+[(#AUTORISER{creer,location})
+	[(#URL_ECRIRE{location_edit,new=oui}|icone_verticale{<:location:icone_creer_location:>,location,new,right})]
+]

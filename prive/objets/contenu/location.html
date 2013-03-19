@@ -1,0 +1,23 @@
+<BOUCLE_location(LOCATIONS){id_location}{statut?}>
+
+[<div class="champ contenu_date_debut[ (#DATE_DEBUT*|strlen|?{'',vide})]">
+	<label><:location:label_date_debut:> : </label>
+	<span dir='#LANG_DIR' class='#EDIT{date_debut} date_debut'>(#DATE_DEBUT)</span>
+</div>]
+
+[<div class="champ contenu_date_fin[ (#DATE_FIN*|strlen|?{'',vide})]">
+	<label><:location:label_date_fin:> : </label>
+	<span dir='#LANG_DIR' class='#EDIT{date_fin} date_fin'>(#DATE_FIN)</span>
+</div>]
+
+[<div class="champ contenu_type_location[ (#TYPE_LOCATION*|strlen|?{'',vide})]">
+	<label><:location:label_type_location:> : </label>
+	<span dir='#LANG_DIR' class='#EDIT{type_location} type_location'>(#TYPE_LOCATION)</span>
+</div>]
+
+[<div class="champ contenu_maj[ (#MAJ*|strlen|?{'',vide})]">
+	<label><:location:label_maj:> : </label>
+	<span dir='#LANG_DIR' class='#EDIT{maj} maj'>(#MAJ)</span>
+</div>]
+
+</BOUCLE_location>

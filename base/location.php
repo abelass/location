@@ -45,6 +45,7 @@ function location_declarer_tables_objets_sql($tables) {
 		'principale' => "oui",
 		'field'=> array(
 			"id_location"        => "bigint(21) NOT NULL",
+			"titre"              => "text NOT NULL DEFAULT ''",
 			"date_debut"         => "datetime NOT NULL DEFAULT '0000-00-00 00:00:00'",
 			"date_fin"           => "datetime NOT NULL DEFAULT '0000-00-00 00:00:00'",
 			"type_location"      => "varchar(50) NOT NULL DEFAULT ''",
@@ -58,11 +59,11 @@ function location_declarer_tables_objets_sql($tables) {
 			"PRIMARY KEY"        => "id_location",
 			"KEY statut"         => "statut", 
 		),
-		'titre' => "'' AS titre, '' AS lang",
+		'titre' => "'titre' AS titre, '' AS lang",
 		 #'date' => "",
-		'champs_editables'  => array('date_debut', 'date_fin', 'maj'),
-		'champs_versionnes' => array('date_debut', 'date_fin', 'type_location', 'maj'),
-		'rechercher_champs' => array("type_location" => 4, "objet" => 4, "id_objet" => 4),
+		'champs_editables'  => array('titre','date_debut', 'date_fin', 'maj','objet','id_objet'),
+		'champs_versionnes' => array('titre','date_debut', 'date_fin', 'type_location', 'maj'),
+		'rechercher_champs' => array("type_location" => 4, "objet" => 4, "id_objet" => 4,'titre'=>8),
 		'tables_jointures'  => array(),
 		'statut_textes_instituer' => array(
 			'prepa'    => 'texte_statut_en_cours_redaction',

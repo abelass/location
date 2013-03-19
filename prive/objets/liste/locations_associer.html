@@ -1,5 +1,5 @@
 [(#SET{defaut_tri,#ARRAY{
-	multi date_debut,1,
+	multi titre,1,
 	id_location,1
 }})
 ]
@@ -9,7 +9,7 @@
 [(#REM) En cas de pagination indirecte @32, il faut refaire le set car la boucle
 a mis a jour la valeur avec la page reelle]
 #SET{debut,#ENV{debutloca,#EVAL{_request("debutloca");}}}
-#SET{afficher_lettres,#TRI|=={'multi date_debut'}|oui}
+#SET{afficher_lettres,#TRI|=={'multi titre'}|oui}
 #ANCRE_PAGINATION
 <div class="liste-objets liste-objets-associer locations">
 <table class='spip liste'>
@@ -24,10 +24,10 @@ a mis a jour la valeur avec la page reelle]
 	<thead>
 		#SET{p,''}
 		<BOUCLE_lettre(LOCATIONS){tout}{!id_location IN #GET{exclus}}{where?}{recherche?}{statut?}
-			{tri #ENV{par,multi date_debut},#GET{defaut_tri}}{id_location==#GET{afficher_lettres}|?{'.*','A'}}>[
-		(#DATE_DEBUT**|extraire_multi|initiale|unique|oui)
+			{tri #ENV{par,multi titre},#GET{defaut_tri}}{id_location==#GET{afficher_lettres}|?{'.*','A'}}>[
+		(#TITRE**|extraire_multi|initiale|unique|oui)
 		[(#SET{p,#GET{p}|concat{
-		#SELF|parametre_url{debutloca,@#ID_LOCATION}|ancre_url{paginationloca}|afficher_initiale{#DATE_DEBUT**|extraire_multi|initiale{},#COMPTEUR_BOUCLE,#GET{debut},#ENV{nb,10}}
+		#SELF|parametre_url{debutloca,@#ID_LOCATION}|ancre_url{paginationloca}|afficher_initiale{#TITRE**|extraire_multi|initiale{},#COMPTEUR_BOUCLE,#GET{debut},#ENV{nb,10}}
 		}})]
 		]#SAUTER{#ENV{nb,10}|moins{#COMPTEUR_BOUCLE|=={1}|?{2,1}}}</BOUCLE_lettre>[
 		(#SET{p,
@@ -39,16 +39,16 @@ a mis a jour la valeur avec la page reelle]
 	
 		<tr class='first_row'>
 			<th class='statut' scope='col'>[(#TRI{statut,<span title="<:lien_trier_statut|attribut_html:>">#</span>,ajax})]</th> 
-			<th class='date_debut' scope='col'>[(#TRI{multi date_debut,<:location:label_date_debut:>,ajax})]</th>
+			<th class='titre' scope='col'>[(#TRI{multi titre,<:location:label_titre:>,ajax})]</th>
 			<th class='action' scope='col'></th>
 		</tr>
 	</thead>
 	<tbody>
 	<BOUCLE_liste_locations(LOCATIONS){!id_location IN #GET{exclus}}{where?}{recherche?}{statut?}
-		{tri #ENV{par,multi date_debut},#GET{defaut_tri}}{pagination #ENV{nb,10} loca}>
-		<tr class="[(#COMPTEUR_BOUCLE|alterner{row_odd,row_even})][ (#EXPOSE|unique)][ (#DATE_DEBUT**|extraire_multi|initiale|=={#ENV{i}}|?{on}|unique)]">
+		{tri #ENV{par,multi titre},#GET{defaut_tri}}{pagination #ENV{nb,10} loca}>
+		<tr class="[(#COMPTEUR_BOUCLE|alterner{row_odd,row_even})][ (#EXPOSE|unique)][ (#TITRE**|extraire_multi|initiale|=={#ENV{i}}|?{on}|unique)]">
 			<td class='statut'>[(#STATUT|puce_statut{location})]</td> 
-			<td class='date_debut'>[(#LOGO_LOCATION|image_reduire{20,20})]<a href="[(#ID_LOCATION|generer_url_entite{location})]">#DATE_DEBUT</a></td>
+			<td class='titre'>[(#LOGO_LOCATION|image_reduire{20,20})]<a href="[(#ID_LOCATION|generer_url_entite{location})]">#TITRE</a></td>
 			<td class='action'>
 				<button class="button link add" name="ajouter_lien\[location-#ID_LOCATION-#OBJET-#ID_OBJET\]" value="+"><:location:ajouter_lien_location:> [(#CHEMIN_IMAGE{ajouter-12.png}|balise_img{'+'})]</button>
 			</td>

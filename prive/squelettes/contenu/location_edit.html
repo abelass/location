@@ -13,7 +13,7 @@
 	]
 	[
 		[(#ID_LOCATION|?{<:location:icone_modifier_location:>,<:location:icone_creer_location:>})]
-		<h1>(#ENV{titre,#INFO_DATE_DEBUT{location,#ID_LOCATION}|sinon{<:info_sans_titre:>}})</h1>
+		<h1>(#ENV{titre,#INFO_TITRE{location,#ID_LOCATION}|sinon{<:info_sans_titre:>}})</h1>
 	]
 </div>
 

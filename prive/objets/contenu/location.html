@@ -1,5 +1,10 @@
 <BOUCLE_location(LOCATIONS){id_location}{statut?}>
 
+[<div class="champ contenu_titre[ (#TITRE*|strlen|?{'',vide})]">
+	<label><:location:label_titre:> : </label>
+	<span dir='#LANG_DIR' class='#EDIT{titre} titre'>(#TITRE)</span>
+</div>]
+
 [<div class="champ contenu_date_debut[ (#DATE_DEBUT*|strlen|?{'',vide})]">
 	<label><:location:label_date_debut:> : </label>
 	<span dir='#LANG_DIR' class='#EDIT{date_debut} date_debut'>(#DATE_DEBUT)</span>

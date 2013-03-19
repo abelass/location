@@ -8,16 +8,26 @@
 		<input type='hidden' name='id_location' value='#ENV{id_location}' />
 		<ul>
 
-			[(#SAISIE{date, date_debut, obligatoire=oui,
+			[(#SAISIE{date,date_debut,obligatoire=oui,
 				label=<:location:label_date_debut:>,
+				horaire=oui,
 				explication=<:location:explication_date_debut:> })]
 
-			[(#SAISIE{date, date_fin, obligatoire=oui,
+			[(#SAISIE{date,date_fin,obligatoire=oui,
 				label=<:location:label_date_fin:>,
+				horaire=oui,
 				explication=<:location:explication_date_fin:> })]
+				
+            [(#SAISIE{input, objet,
+                label=<:location:label_objet:>})]
 
+            [(#SAISIE{input,id_objet,
+                label=<:location:label_id_objet:>})]
+
+            [(#REM) Désactive pour le moment en attendat de définir comment le traiter
 			[(#SAISIE{input, type_location,
 				label=<:location:label_type_location:>})]
+				]
 
 		</ul>
 		[(#REM) ajouter les saisies supplementaires : extra et autre, a cet endroit ]

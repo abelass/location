@@ -49,7 +49,7 @@ function location_upgrade($nom_meta_base_version, $version_cible) {
 	# );
 	# ...
 
-	$maj['create'] = array(array('maj_tables', array('spip_locations')));
+	$maj['create'] = array(array('maj_tables', array('spip_locations')));  
 
 	include_spip('base/upgrade');
 	maj_plugin($nom_meta_base_version, $version_cible, $maj);

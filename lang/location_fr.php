@@ -42,6 +42,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'label_objet_loue' => 'Objet loué',
 	'label_objets_location' => 'Les objets qui peuvent être loués :',		
 	'label_maj' => 'Mise à Jour',
+	'label_moderation_priori' => 'Voulez vous activer la modération à priori pour les locations ?',	
 	'label_titre' => 'Titre',	
 	'label_type_location' => 'Type de location',
 

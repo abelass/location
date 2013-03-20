@@ -7,13 +7,13 @@
 		<input type='hidden' name='id_location' value='#ENV{id_location}' />
 		<ul>
 
-			[(#SAISIE{date,date_debut,obligatoire=oui,
+			[(#SAISIE{date_location,date_debut,obligatoire=oui,
 				label=<:location:label_date_debut:>,
 				defaut=#DATE,
 				horaire=oui,
 				explication=<:location:explication_date_debut:> })]
 
-			[(#SAISIE{date,date_fin,obligatoire=oui,
+			[(#SAISIE{date_location,date_fin,obligatoire=oui,
 				label=<:location:label_date_fin:>,
 				defaut=#DATE,
 				horaire=oui,
@@ -22,22 +22,22 @@
 			[(#REM) cacher dans le formulaire public]
 			[(#ENV{prive}|oui)
                 [(#SAISIE{
-                    selection, objet,
+                    selection, objet,obligatoire=oui,
                     label=<:location:label_objet:>,
                     datas=#ENV{objets_dispo}}
                     )]
                 [(#ENV{id_objets_dispo}|?{
                     [(#SAISIE{
-                        selection, id_objet,
-                        label=<:location:id_objet:>,
+                        selection,id_objet,obligatoire=oui,
+                        label=<:location:label_element:>,
                         datas=#ENV{id_objets_dispo}}
                         )]
                     ,
                     [(#SAISIE{
-                        input, id_objet,
-                        label=<:location:id_objet:>,}
+                        input,id_objet,obligatoire=oui,
+                        label=<:location:label_id_objet:>,}
                         )]
-                })]
+                    })]
                 ]
                 
             [(#SAISIE{

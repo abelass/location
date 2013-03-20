@@ -86,7 +86,7 @@ function formulaires_editer_location_charger_dist($id_location='new', $retour=''
         $valeurs['id_objets_dispo'][$data[$id_table_objet]]=generer_info_entite($data[$id_table_objet],$objet,'titre');
     }
     
-    $valeurs['date']=date('Y/m/d G:i:s');
+    $valeurs['date']=date('Y-m-d G:i:s');
     
     if(_request('exec'))$valeurs['prive']=_request('exec');
     if(_request('id_objet'))$valeurs['_hidden'].='<input type="hidden" name="id_objet" value="'._request('id_objet').'"/>';
@@ -126,11 +126,39 @@ function formulaires_editer_location_verifier_dist($id_location='new', $retour='
     $verifier = charger_fonction('verifier', 'inc');
     $champs = array('date_debut','date_fin');
     $normaliser = null;
+    $horaires=true;
+    $date_debut=_request('date_debut');
+    $date_fin=_request('date_fin');
+    if($horaires){
+        $d_debut=$date_debut['date'];
+        $d_fin=$date_fin['date'];        
+        if(preg_match('#^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}$#',$d_debut))
+        {list($annee,$mois,$jour) = explode('-',$d_debut);
+           $d_debut=$jour.'/'.$mois.'/'.$annee; 
+            $date_debut=array('date'=>$d_debut,'heure'=>$date_debut['heure']);
+            set_request('date_debut',$date_debut);
+        } 
+        if(preg_match('#^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}$#',$d_fin))
+        {list($annee,$mois,$jour) = explode('-',$d_fin);
+           $d_fin=$jour.'/'.$mois.'/'.$annee; 
+            $date_fin=array('date'=>$d_fin,'heure'=>$date_fin['heure']);
+            set_request('date_fin',$date_fin);
+        }
+    }
+    else {
+        if(preg_match('#^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}$#',$date_debut))
+        {list($annee,$mois,$jour) = explode('-',$date_debut);
+            set_request('date_debut',$jour.'/'.$mois.'/'.$annee);
+        } 
+        if(preg_match('#^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}$#',$date_fin))
+        {list($annee,$mois,$jour) = explode('-',$date_fin);
+            set_request('date_fin',$jour.'/'.$mois.'/'.$annee);
+        } 
+    }
+
+    
     foreach($champs AS $champ){
         $r=_request($champ);
-
-        $c=array($r['date'],$r['heure']);
-
        if ($erreur = $verifier($r, 'date', array('normaliser'=>'datetime'), $normaliser)) {
         $erreurs[$champ] = $erreur;
     // si une valeur de normalisation a ete transmis, la prendre.
@@ -170,13 +198,13 @@ function formulaires_editer_location_verifier_dist($id_location='new', $retour='
             
     
             $erreur_reservation=$verifier_reservations($objet,$id_objet,_request('date_debut'),_request('date_fin'),$id_location);
-            if($erreur_reservation)$erreurs['date_fin'] = _T('location:erreur_objet',array('objets_dispo'=>$objets_dispo));
+            if($erreur_reservation)$erreurs=array_merge($erreurs,$erreur_reservation);
             }
             set_request('titre',$titre);
         }
 
 
-    $erreurs['titre']='ok';
+    //$erreurs['titre']='ok';
 
     return $erreurs;
 }

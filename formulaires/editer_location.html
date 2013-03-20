@@ -21,11 +21,13 @@
 			
 			[(#REM) cacher dans le formulaire public]
 			[(#ENV{prive}|oui)
-                [(#SAISIE{
-                    selection, objet,obligatoire=oui,
-                    label=<:location:label_objet:>,
-                    datas=#ENV{objets_dispo}}
-                    )]
+			     [(#ENV{objets_dispo}|oui)
+                    [(#SAISIE{
+                        selection, objet,obligatoire=oui,
+                        label=<:location:label_objet:>,
+                        datas=#ENV{objets_dispo}}
+                        )]
+                    ]
                 [(#ENV{id_objets_dispo}|?{
                     [(#SAISIE{
                         selection,id_objet,obligatoire=oui,

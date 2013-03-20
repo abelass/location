@@ -68,19 +68,22 @@ function formulaires_editer_location_identifier_dist($id_location='new', $retour
 function formulaires_editer_location_charger_dist($id_location='new', $retour='', $associer_objet='', $lier_trad=0, $config_fonc='', $row=array(), $hidden=''){
 	$valeurs = formulaires_editer_objet_charger('location',$id_location,'',$lier_trad,$retour,$config_fonc,$row,$hidden);
     include_spip('inc/config');
-    $objets=lire_config('location/objets_location',array());
-    $afficher_horaires=lire_config('location/afficher_horaires')?'oui':'';
-    //Les objets choisis par la confi
-    foreach($objets AS $o){
-        $valeurs['objets_dispo'][$o]=_T(objet_info($o,'texte_objets'));
-    }
+    $afficher_horaires=lire_config('location/afficher_horaires')?'oui':'';    
     
-    $objet=_request('objet')?_request('objet'):$valeurs['objet'];
+    //Les objets choisis dans via config 
+    $objets=lire_config('location/objets_location',array());
+    if(count($objets)>1){
+        foreach($objets AS $o){
+            $valeurs['objets_dispo'][$o]=_T(objet_info($o,'texte_objets'));
+            }
+         $objet=_request('objet')?_request('objet'):$valeurs['objet'];
+        }
+    else $objet=$objets[0];
     $e = trouver_objet_exec($objet);
     $id_table_objet=$e['id_table_objet'];
     $table = table_objet_sql($objet);
     
-    //Les objets effectifs correpsondant à l'objet sélectionné
+    //Les objets effectifs correspondant à l'objet sélectionné
     if($id_table_objet AND $table)$sql=sql_select($id_table_objet,$table);
     while($data=sql_fetch($sql)){
         $valeurs['id_objets_dispo'][$data[$id_table_objet]]=generer_info_entite($data[$id_table_objet],$objet,'titre');
@@ -90,7 +93,7 @@ function formulaires_editer_location_charger_dist($id_location='new', $retour=''
     
     if(_request('exec'))$valeurs['prive']=_request('exec');
     if(_request('id_objet'))$valeurs['_hidden'].='<input type="hidden" name="id_objet" value="'._request('id_objet').'"/>';
-    if(_request('objet'))$valeurs['_hidden'].='<input type="hidden" name="id_objet" value="'._request('objet').'"/>'; 
+    if($objet)$valeurs['_hidden'].='<input type="hidden" name="objet" value="'.$objet.'"/>'; 
     $valeurs['_hidden'].='<input type="hidden" name="afficher_horaire" value="'.$afficher_horaire.'"/>'; 
 
     $valeurs['_hidden'].='<input type="hidden" name="statut" value="publie"/>'; 

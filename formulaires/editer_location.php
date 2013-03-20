@@ -172,8 +172,7 @@ function formulaires_editer_location_verifier_dist($id_location='new', $retour='
       
     }
     }
-    
-    
+
 	$erreurs=array_merge($erreurs,formulaires_editer_objet_verifier('location',$id_location, array('date_debut', 'date_fin','objet','id_objet')));
     
     if(_request('date_debut')>=_request('date_fin'))$erreurs['date_fin'] = _T('location:erreur_date_fin_inferieur');
@@ -201,8 +200,8 @@ function formulaires_editer_location_verifier_dist($id_location='new', $retour='
             
             $verifier_reservations=charger_fonction('verifier_reservations','inc');
             
-    
-            $erreur_reservation=$verifier_reservations($objet,$id_objet,_request('date_debut'),_request('date_fin'),$id_location);
+            //Vérifier si les dates sont disponibles
+            $erreur_reservation=$verifier_reservations($objet,$id_objet,_request('date_debut'),_request('date_fin'),$id_location,$horaires);
             if($erreur_reservation)$erreurs=array_merge($erreurs,$erreur_reservation);
             }
             set_request('titre',$titre);

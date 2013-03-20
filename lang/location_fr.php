@@ -32,6 +32,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'info_nb_locations' => '@nb@ locations',
 
 	// L
+	'label_afficher_horaires' => 'Afficher les horaires pour la sélection des dates ?',		
 	'label_commentaire' => 'Commentaire',	
 	'label_element' => 'Élément',	
 	'label_date_debut' => 'Date début',

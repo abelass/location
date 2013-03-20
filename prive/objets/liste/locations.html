@@ -1,4 +1,6 @@
 [(#SET{defaut_tri,#ARRAY{
+    date_debut,-1
+    date_fin,-1    
     titre,1, 
     id_location,1,
     points,-1
@@ -12,6 +14,8 @@
             <th class='picto' scope='col'></th>
             <th class='statut' scope='col'>[(#TRI{statut,<span title="<:lien_trier_statut|attribut_html:>">#</span>,ajax})]</th> 
             <th class='titre' scope='col'>[(#TRI{titre,<:location:label_titre:>,ajax})]</th>
+            <th class='date_debut' scope='col'>[(#TRI{date_debut,<:location:label_date_debut:>,ajax})]</th>
+            <th class='date_fin' scope='col'>[(#TRI{date_fin,<:location:label_date_fin:>,ajax})]</th>
             <th class='id' scope='col'>[(#TRI{id_location,<:info_numero_abbreviation:>,ajax})]</th>
         </tr>
     </thead>
@@ -21,6 +25,8 @@
             <td class='picto'>[(#CHEMIN_IMAGE{location-16.png}|balise_img)]</td>
             <td class='statut'>[(#STATUT|puce_statut{location,#ID_LOCATION})]</td> 
             <td class='titre principale'>[(#LOGO_LOCATION|image_reduire{20,26})]<a href="[(#ID_LOCATION|generer_url_entite{location})]" title="<:info_numero_abbreviation|attribut_html:> #ID_LOCATION">[(#RANG). ]#TITRE</a></td>
+            <td class="date_debut">[(#DATE_DEBUT|affdate{d-m-Y G:i:s})]</td>
+            <td class="date_fin">[(#DATE_FIN|affdate{d-m-Y G:i:s})]</td>
             <td class='id'>[(#AUTORISER{modifier,location,#ID_LOCATION}|?{
                 <a href="[(#URL_ECRIRE{location_edit,id_location=#ID_LOCATION})]">#ID_LOCATION</a>,
                 #ID_LOCATION

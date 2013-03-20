@@ -35,7 +35,8 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'label_objet' => 'Objet',
 	'label_objet_loue' => 'Objet loué',
 	'label_objets_location' => 'Les objets qui peuvent être loués :',		
-	'label_maj' => 'MAJ',
+	'label_maj' => 'Mise à Jour',
+	'label_titre' => 'Titre',	
 	'label_type_location' => 'Type de location',
 
 	// R

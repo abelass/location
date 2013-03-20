@@ -59,6 +59,7 @@ function location_affiche_auteurs_interventions($flux) {
 
 		$flux['data'] .= recuperer_fond('prive/objets/liste/locations', array(
 			'id_auteur' => $id_auteur,
+			'par'=>'date_debut',
 			'titre' => _T('location:info_locations_auteur')
 		), array('ajax' => true));
 

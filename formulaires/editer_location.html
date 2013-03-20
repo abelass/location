@@ -10,13 +10,13 @@
 			[(#SAISIE{date_location,date_debut,obligatoire=oui,
 				label=<:location:label_date_debut:>,
 				defaut=#DATE,
-				horaire=oui,
+				horaire=#ENV{afficher_horaires},
 				explication=<:location:explication_date_debut:> })]
 
 			[(#SAISIE{date_location,date_fin,obligatoire=oui,
 				label=<:location:label_date_fin:>,
 				defaut=#DATE,
-				horaire=oui,
+				horaire=#ENV{afficher_horaires},
 				explication=<:location:explication_date_fin:> })]
 			
 			[(#REM) cacher dans le formulaire public]

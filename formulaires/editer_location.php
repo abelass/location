@@ -69,7 +69,7 @@ function formulaires_editer_location_charger_dist($id_location='new', $retour=''
 	$valeurs = formulaires_editer_objet_charger('location',$id_location,'',$lier_trad,$retour,$config_fonc,$row,$hidden);
     include_spip('inc/config');
     $objets=lire_config('location/objets_location',array());
-    
+    $afficher_horaires=lire_config('location/afficher_horaires')?'oui':'';
     //Les objets choisis par la confi
     foreach($objets AS $o){
         $valeurs['objets_dispo'][$o]=_T(objet_info($o,'texte_objets'));
@@ -91,6 +91,8 @@ function formulaires_editer_location_charger_dist($id_location='new', $retour=''
     if(_request('exec'))$valeurs['prive']=_request('exec');
     if(_request('id_objet'))$valeurs['_hidden'].='<input type="hidden" name="id_objet" value="'._request('id_objet').'"/>';
     if(_request('objet'))$valeurs['_hidden'].='<input type="hidden" name="id_objet" value="'._request('objet').'"/>'; 
+    $valeurs['_hidden'].='<input type="hidden" name="afficher_horaire" value="'.$afficher_horaire.'"/>'; 
+
     $valeurs['_hidden'].='<input type="hidden" name="statut" value="publie"/>'; 
 	return $valeurs;
 }
@@ -126,7 +128,7 @@ function formulaires_editer_location_verifier_dist($id_location='new', $retour='
     $verifier = charger_fonction('verifier', 'inc');
     $champs = array('date_debut','date_fin');
     $normaliser = null;
-    $horaires=true;
+    $horaires=_request('horaire');
     $date_debut=_request('date_debut');
     $date_fin=_request('date_fin');
     if($horaires){

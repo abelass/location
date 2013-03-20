@@ -126,14 +126,18 @@ function formulaires_editer_location_charger_dist($id_location='new', $retour=''
  *     Tableau des erreurs
  */
 function formulaires_editer_location_verifier_dist($id_location='new', $retour='', $associer_objet='', $lier_trad=0, $config_fonc='', $row=array(), $hidden=''){
+    include_spip('inc/texte');
     $erreurs=array();
-        // verifier et changer en datetime sql la date envoyee
+    
+    // verifier et changer en datetime sql la date envoyee
     $verifier = charger_fonction('verifier', 'inc');
     $champs = array('date_debut','date_fin');
     $normaliser = null;
     $horaires=_request('horaire');
     $date_debut=_request('date_debut');
     $date_fin=_request('date_fin');
+    
+    // si envoyé par un navigateur html 5 qui gère date alors il faut retravailler les dates
     if($horaires){
         $d_debut=$date_debut['date'];
         $d_fin=$date_fin['date'];        
@@ -161,7 +165,7 @@ function formulaires_editer_location_verifier_dist($id_location='new', $retour='
         } 
     }
 
-    
+    //verifier le format et renvoyer correctement
     foreach($champs AS $champ){
         $r=_request($champ);
        if ($erreur = $verifier($r, 'date', array('normaliser'=>'datetime'), $normaliser)) {
@@ -172,40 +176,53 @@ function formulaires_editer_location_verifier_dist($id_location='new', $retour='
       
     }
     }
-
+    
+    //On merge avec les controls faites par spip
 	$erreurs=array_merge($erreurs,formulaires_editer_objet_verifier('location',$id_location, array('date_debut', 'date_fin','objet','id_objet')));
     
+    //Date fin doit être postérieur à la date début
     if(_request('date_debut')>=_request('date_fin'))$erreurs['date_fin'] = _T('location:erreur_date_fin_inferieur');
     
-    if($objet=_request('objet')){
-        // tester si l'objet est admis
-        $table = table_objet_sql($objet);
-        $tables_objets=lister_tables_objets_sql();
-        $objets_exclus=array('message', 'petition', 'signature','syndic_article', 'depot', 'plugin', 'paquet', 'location');
-        $objets=array();
-        foreach($tables_objets As $o){
-            if(isset($o['editable']) AND !in_array($o['type'],$objets_exclus))$objets[]=$o['type'];
-        }
-        $objets_dispo=implode(', ',$objets);
-        
-        if(!in_array($objet,$objets))$erreurs['objet'] = _T('location:erreur_objet',array('objets_dispo'=>$objets_dispo));
-        // tester si l'objet est admis
-          $data_objet=lister_tables_objets_sql($table);
+    // Teste si l'id-objet correspond à un élément - utile seulement si pas le formulaire select
+    if($objet=_request('objet') AND $id_objet=_request('id_objet')){
 
-        // Vérifier si l'objet existe
-        if($id_objet=_request('id_objet')){
-            include_spip('inc/texte');
-            $data_objet=lister_tables_objets_sql($table);
-            if(!$titre=generer_info_entite($id_objet,$objet,'titre'))$erreurs['id_objet']=_T('location:erreur_id_objet_objet_inexistant',array('id_objet'=>$id_objet,'objet'=>$objet));
-            
-            $verifier_reservations=charger_fonction('verifier_reservations','inc');
-            
-            //Vérifier si les dates sont disponibles
-            $erreur_reservation=$verifier_reservations($objet,$id_objet,_request('date_debut'),_request('date_fin'),$id_location,$horaires);
-            if($erreur_reservation)$erreurs=array_merge($erreurs,$erreur_reservation);
-            }
-            set_request('titre',$titre);
+        $data_objet=lister_tables_objets_sql($table);
+        
+        
+        $data_objet=lister_tables_objets_sql($table);
+        //en testan on récupère le tire de l'élément s'i existe
+        if(!$titre=generer_info_entite($id_objet,$objet,'titre'))$erreurs['id_objet']=_T('location:erreur_id_objet_objet_inexistant',array('id_objet'=>$id_objet,'objet'=>$objet));
+        
+        set_request('titre',$titre);
+        
+        //Vérifier si les dates sont disponibles
+        $verifier_reservations=charger_fonction('verifier_reservations','inc');
+        $erreur_reservation=$verifier_reservations($objet,$id_objet,_request('date_debut'),_request('date_fin'),$id_location,$horaires);
+        if($erreur_reservation)$erreurs=array_merge($erreurs,$erreur_reservation);
+        
+        
         }
+    
+    // teste antispam pour l'espace public
+    if(!_request('exec')){
+
+        // si nospam est present on traite les spams
+        if (include_spip('inc/nospam')) {
+            $commentaire=_request('commentaire');
+            // on analyse le texte
+            $infos_texte = analyser_spams( $commentaire);
+            if ($infos_texte['nombre_liens'] > 0) {
+                // si un lien a un titre de moins de 3 caracteres = spam !
+                if ($infos_texte['caracteres_texte_lien_min'] < 3) {
+                    $erreurs['commentaire'] = _T('nospam:erreur_spam');
+                }
+                // si le texte contient plus de trois lien = spam !
+                if ($infos_texte['nombre_liens'] >= 3)
+                    $erreurs['commentaire'] = _T('nospam:erreur_spam');
+            }
+        }
+        
+    }
 
 
     //$erreurs['titre']='ok';

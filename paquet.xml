@@ -41,6 +41,7 @@
 
 	<necessite nom="saisies" compatibilite="[1.24.0;]" /> 
 	<necessite nom="verifier" compatibilite="[1.0.2;]" /> 	
+	<necessite nom="nospam" compatibilite="[1.0.7;]" /> 		
 	
 	<pipeline nom="autoriser" inclure="location_autorisations.php" /> 
 

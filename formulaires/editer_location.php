@@ -70,7 +70,7 @@ function formulaires_editer_location_charger_dist($id_location='new', $retour=''
     include_spip('inc/config');
     $objets=lire_config('location/objets_location',array());
     
-
+    //Les objets choisis par la confi
     foreach($objets AS $o){
         $valeurs['objets_dispo'][$o]=_T(objet_info($o,'texte_objets'));
     }
@@ -78,15 +78,16 @@ function formulaires_editer_location_charger_dist($id_location='new', $retour=''
     $objet=_request('objet')?_request('objet'):$valeurs['objet'];
     $e = trouver_objet_exec($objet);
     $id_table_objet=$e['id_table_objet'];
-    
-    
     $table = table_objet_sql($objet);
     
+    //Les objets effectifs correpsondant à l'objet sélectionné
     if($id_table_objet AND $table)$sql=sql_select($id_table_objet,$table);
-    
     while($data=sql_fetch($sql)){
         $valeurs['id_objets_dispo'][$data[$id_table_objet]]=generer_info_entite($data[$id_table_objet],$objet,'titre');
     }
+    
+    $valeurs['date']=date('Y/m/d G:i:s');
+    
     if(_request('exec'))$valeurs['prive']=_request('exec');
     if(_request('id_objet'))$valeurs['_hidden'].='<input type="hidden" name="id_objet" value="'._request('id_objet').'"/>';
     if(_request('objet'))$valeurs['_hidden'].='<input type="hidden" name="id_objet" value="'._request('objet').'"/>'; 

@@ -11,8 +11,6 @@
 
         $sql=sql_select('date_debut,date_fin,id_location','spip_locations',$where,'','date_debut');
         
-        
-        echo affdate($date_debut,'d-m-Y G:i:s');
         $erreurs=array();
         $date_debut_limite=array();
         while($data=sql_fetch($sql)){

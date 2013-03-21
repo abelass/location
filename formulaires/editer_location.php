@@ -68,14 +68,15 @@ function formulaires_editer_location_identifier_dist($id_location='new', $retour
 function formulaires_editer_location_charger_dist($id_location='new', $retour='', $associer_objet='', $lier_trad=0, $config_fonc='', $row=array(), $hidden=''){
 	$valeurs = formulaires_editer_objet_charger('location',$id_location,'',$lier_trad,$retour,$config_fonc,$row,$hidden);
     include_spip('inc/config');
-    $afficher_horaires=lire_config('location/afficher_horaires')?'oui':'';  
-    $statut=lire_config('location/afficher_horaires','valide');
+    $valeurs['afficher_horaires']=lire_config('location/afficher_horaires')?'oui':'';  
+    
+    $statut=lire_config('location/statut_defaut','valide');
     
     //Traitement différents pour l'espace public
     $statut=$valeurs['statut'];
     if(!$statut AND _request('exec')){
         $valeurs['prive']=_request('exec');
-        $statut=lire_config('location/afficher_horaires_public',$statut);
+        $statut=lire_config('location/statut_defaut_public',$statut);
     }
     
     //Les objets choisis dans via config 
@@ -98,13 +99,14 @@ function formulaires_editer_location_charger_dist($id_location='new', $retour=''
     }
     
     $valeurs['date']=date('Y-m-d G:i:s');
-    
+
     
     if(_request('id_objet'))$valeurs['_hidden'].='<input type="hidden" name="id_objet" value="'._request('id_objet').'"/>';
     if($objet)$valeurs['_hidden'].='<input type="hidden" name="objet" value="'.$objet.'"/>'; 
-    $valeurs['_hidden'].='<input type="hidden" name="afficher_horaire" value="'.$afficher_horaire.'"/>'; 
+    $valeurs['_hidden'].='<input type="hidden" name="afficher_horaires" value="'.$valeurs['afficher_horaires'].'"/>'; 
 
     $valeurs['_hidden'].='<input type="hidden" name="statut" value="'.$statut.'"/>'; 
+
 	return $valeurs;
 }
 
@@ -137,46 +139,32 @@ function formulaires_editer_location_verifier_dist($id_location='new', $retour='
     include_spip('inc/texte');
     $erreurs=array();
     
-    // verifier et changer en datetime sql la date envoyee
-    $verifier = charger_fonction('verifier', 'inc');
+
     $champs = array('date_debut','date_fin');
     $normaliser = null;
-    $horaires=_request('horaire');
+    $horaires=_request('afficher_horaires');
     $date_debut=_request('date_debut');
     $date_fin=_request('date_fin');
     
-    // si envoyé par un navigateur html 5 qui gère date alors il faut retravailler les dates
-    if($horaires){
-        $d_debut=$date_debut['date'];
-        $d_fin=$date_fin['date'];        
-        if(preg_match('#^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}$#',$d_debut))
-        {list($annee,$mois,$jour) = explode('-',$d_debut);
-           $d_debut=$jour.'/'.$mois.'/'.$annee; 
-            $date_debut=array('date'=>$d_debut,'heure'=>$date_debut['heure']);
-            set_request('date_debut',$date_debut);
-        } 
-        if(preg_match('#^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}$#',$d_fin))
-        {list($annee,$mois,$jour) = explode('-',$d_fin);
-           $d_fin=$jour.'/'.$mois.'/'.$annee; 
-            $date_fin=array('date'=>$d_fin,'heure'=>$date_fin['heure']);
-            set_request('date_fin',$date_fin);
-        }
-    }
-    else {
-        if(preg_match('#^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}$#',$date_debut))
-        {list($annee,$mois,$jour) = explode('-',$date_debut);
-            set_request('date_debut',$jour.'/'.$mois.'/'.$annee);
-        } 
-        if(preg_match('#^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}$#',$date_fin))
-        {list($annee,$mois,$jour) = explode('-',$date_fin);
-            set_request('date_fin',$jour.'/'.$mois.'/'.$annee);
-        } 
-    }
 
-    //verifier le format et renvoyer correctement
+    // verifier et changer en datetime sql la date envoyee
+    $verifier = charger_fonction('verifier', 'inc');
+    
+    $options=array('normaliser'=>'datetime');
     foreach($champs AS $champ){
+        $options['format']='jma';
         $r=_request($champ);
-       if ($erreur = $verifier($r, 'date', array('normaliser'=>'datetime'), $normaliser)) {
+        // quelques navigateur en html5 retourne la date différement
+
+        if($horaires AND preg_match('#^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}$#',$r['date'])){
+            list($annee,$mois,$jour) = explode('-',$r['date']);
+           $r['date']=$jour.'/'.$mois.'/'.$annee; 
+        }
+        elseif(!$horaires AND preg_match('#^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}$#',$r)){
+            list($annee,$mois,$jour) = explode('-',$r);
+            $r=$jour.'/'.$mois.'/'.$annee;
+            }
+       if ($erreur = $verifier($r, 'date',$options, $normaliser)) {
         $erreurs[$champ] = $erreur;
     // si une valeur de normalisation a ete transmis, la prendre.
     } elseif (!is_null($normaliser)) {

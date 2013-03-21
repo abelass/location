@@ -20,6 +20,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'erreur_date_pas possible'=>'Aucune disponibilté pour ces dates',					
 	'erreur_id_objet_objet_inexistant'=>'Aucun objet existe pour l\'objet "@objet@  @id_objet@"',	
 	'erreur_objet'=>'Cet objet n\'est pas disponible, les objets disponibles sont : @objets_dispo@ !',
+	'erreur_verifier_date'=>'Vous ne pouvez pas valider cette location, veuillez vérifier si vos dates n\'entrent pas en conflict avec des autres locations validées',
 	'explication_date_debut' => 'jj/mm/YYYY',
 	'explication_date_fin' => 'jj/mm/YYYY',
 	'explication_statut_defaut_public' => 'Si laissé vide, c\'est le statut par défaut',	

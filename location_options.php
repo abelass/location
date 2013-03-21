@@ -6,7 +6,7 @@
  * @copyright  2013
  * @author     Rainer Müller
  * @licence    GNU/GPL
- * @package    SPIP\Location\Fonctions
+ * @package    SPIP\Location\Options
  */
 
 if (!defined('_ECRIRE_INC_VERSION')) return;

@@ -22,6 +22,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'erreur_objet'=>'Cet objet n\'est pas disponible, les objets disponibles sont : @objets_dispo@ !',
 	'explication_date_debut' => 'jj/mm/YYYY',
 	'explication_date_fin' => 'jj/mm/YYYY',
+	'explication_statut_defaut_public' => 'Si laissé vide, c\'est le statut par défaut',	
 
 	// I
 	'icone_creer_location' => 'Créer une location',
@@ -40,7 +41,9 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'label_id_objet' => 'id Objet',
 	'label_objet' => 'Objet',
 	'label_objet_loue' => 'Objet loué',
-	'label_objets_location' => 'Les objets qui peuvent être loués :',		
+	'label_objets_location' => 'Les objets qui peuvent être loués :',
+	'label_statut_defaut' => 'Statut par défaut',	
+	'label_statut_defaut_public' => 'Statut par défaut pour l\'espace public',				
 	'label_maj' => 'Mise à Jour',
 	'label_moderation_priori' => 'Voulez vous activer la modération à priori pour les locations ?',	
 	'label_titre' => 'Titre',	

@@ -68,7 +68,14 @@ function formulaires_editer_location_identifier_dist($id_location='new', $retour
 function formulaires_editer_location_charger_dist($id_location='new', $retour='', $associer_objet='', $lier_trad=0, $config_fonc='', $row=array(), $hidden=''){
 	$valeurs = formulaires_editer_objet_charger('location',$id_location,'',$lier_trad,$retour,$config_fonc,$row,$hidden);
     include_spip('inc/config');
-    $afficher_horaires=lire_config('location/afficher_horaires')?'oui':'';    
+    $afficher_horaires=lire_config('location/afficher_horaires')?'oui':'';  
+    $statut=lire_config('location/afficher_horaires','valide');
+    
+    //Traitement différents pour l'espace public
+    if(_request('exec')){
+        $valeurs['prive']=_request('exec');
+        $statut=lire_config('location/afficher_horaires_public',$statut);
+    }
     
     //Les objets choisis dans via config 
     $objets=lire_config('location/objets_location',array());
@@ -91,12 +98,12 @@ function formulaires_editer_location_charger_dist($id_location='new', $retour=''
     
     $valeurs['date']=date('Y-m-d G:i:s');
     
-    if(_request('exec'))$valeurs['prive']=_request('exec');
+    
     if(_request('id_objet'))$valeurs['_hidden'].='<input type="hidden" name="id_objet" value="'._request('id_objet').'"/>';
     if($objet)$valeurs['_hidden'].='<input type="hidden" name="objet" value="'.$objet.'"/>'; 
     $valeurs['_hidden'].='<input type="hidden" name="afficher_horaire" value="'.$afficher_horaire.'"/>'; 
 
-    $valeurs['_hidden'].='<input type="hidden" name="statut" value="publie"/>'; 
+    $valeurs['_hidden'].='<input type="hidden" name="statut" value="'.$statut.'"/>'; 
 	return $valeurs;
 }
 

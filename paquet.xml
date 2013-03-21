@@ -47,8 +47,10 @@
 
 	<pipeline nom="declarer_tables_objets_sql" inclure="base/location.php" /> 
 	<pipeline nom="declarer_tables_interfaces" inclure="base/location.php" /> 
+	
 	<pipeline nom="affiche_milieu" inclure="location_pipelines.php" /> 
 	<pipeline nom="affiche_auteurs_interventions" inclure="location_pipelines.php" /> 
+	<pipeline nom="header_prive" inclure="location_pipelines.php" /> 	
 
 	<menu nom="locations" titre="location:titre_locations" parent="menu_edition" icone="images/location-16.png" action="locations" /> 
 	<menu nom="location_creer" titre="location:icone_creer_location" parent="outils_rapides" icone="images/location-new-16.png" action="location_edit" parametres="new=oui" /> 

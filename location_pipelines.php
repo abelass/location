@@ -67,5 +67,9 @@ function location_affiche_auteurs_interventions($flux) {
 	return $flux;
 }
 
+function location_header_prive($flux){
+    $flux .= "<link rel='stylesheet' href='".find_in_path('css/location.css')."' type='text/css'/>\n";
+    return $flux;
+}
 
 ?>

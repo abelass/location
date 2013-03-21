@@ -72,7 +72,8 @@ function formulaires_editer_location_charger_dist($id_location='new', $retour=''
     $statut=lire_config('location/afficher_horaires','valide');
     
     //Traitement différents pour l'espace public
-    if(_request('exec')){
+    $statut=$valeurs['statut'];
+    if(!$statut AND _request('exec')){
         $valeurs['prive']=_request('exec');
         $statut=lire_config('location/afficher_horaires_public',$statut);
     }
@@ -197,7 +198,7 @@ function formulaires_editer_location_verifier_dist($id_location='new', $retour='
         
         
         $data_objet=lister_tables_objets_sql($table);
-        //en testan on récupère le tire de l'élément s'i existe
+        //en testant on récupère le tire de l'élément s'i existe
         if(!$titre=generer_info_entite($id_objet,$objet,'titre'))$erreurs['id_objet']=_T('location:erreur_id_objet_objet_inexistant',array('id_objet'=>$id_objet,'objet'=>$objet));
         
         set_request('titre',$titre);

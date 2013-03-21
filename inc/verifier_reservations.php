@@ -6,6 +6,7 @@
         'objet='.sql_quote($objet),
         'id_objet='.$id_objet,
         'date_fin>='.sql_quote($date_debut),
+        'statut='.sql_quote('valide')
         );
         if(intval($id_location))$where[]='id_location!='.$id_location;
 

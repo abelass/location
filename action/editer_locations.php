@@ -97,7 +97,7 @@ function locations_instituer($id_location, $c, $calcul_details=true){
     );
     
     // Notifications
-   /* include_spip('inc/config');
+    include_spip('inc/config');
     $config = lire_config('commandes');
     if (($statut != $statut_ancien) &&
          ($config['activer']) &&
@@ -114,7 +114,7 @@ function locations_instituer($id_location, $c, $calcul_details=true){
         $notifications('commande_vendeur', $id_commande, $options);
         if($config['client'])
             $notifications('commande_client', $id_commande, $options);
-    }*/
+    }
 
     return'';
 }

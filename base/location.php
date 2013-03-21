@@ -58,7 +58,7 @@ function location_declarer_tables_objets_sql($tables) {
 		),
 		'key' => array(
 			"PRIMARY KEY"        => "id_location",
-			"KEY statut"         => "statut", 
+			"KEY statut"         => "statut,id_objet,objet", 
 		),
 		'titre' => "'titre' AS titre, '' AS lang",
 		 #'date' => "",
@@ -67,20 +67,28 @@ function location_declarer_tables_objets_sql($tables) {
 		'rechercher_champs' => array("type_location" => 4, "objet" => 4, "id_objet" => 4,'titre'=>8,'commentaire'=>6),
 		'tables_jointures'  => array(),
 		'statut_textes_instituer' => array(
-			'prop'     => 'texte_statut_propose_evaluation',
-			'publie'   => 'texte_statut_publie',
-			'refuse'   => 'texte_statut_refuse',
-			'poubelle' => 'texte_statut_poubelle',
+			'encours'     => 'location:texte_statut_encours',
+			'attente'     => 'location:texte_statut_attente',			
+			'valide'      => 'location:texte_statut_valide',
+			'refuse'       => 'texte_statut_refuse',
+			'poubelle'   => 'texte_statut_poubelle',
 		),
 		'statut'=> array(
 			array(
 				'champ'     => 'statut',
-				'publie'    => 'publie',
-				'previsu'   => 'publie,prop,prepa',
+				'publie'    => 'valide',
+				'previsu'   => 'valide,encours,attente',
 				'post_date' => 'date', 
 				'exception' => array('statut','tout')
 			)
 		),
+		'statut_images' =>   array(
+            'statut_location.png',
+            'encours'=>'statut_encours.png',
+            'attente'=>'statut_attente.png',            
+            'valide'=>'statut_valide.png',
+            'refuse'=>'statut_refuse.png',
+            'poubelle'=>'statut_poubelle.png'),
 		'texte_changer_statut' => 'location:texte_changer_statut_location', 
 		
 

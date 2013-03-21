@@ -154,8 +154,8 @@ function formulaires_editer_location_verifier_dist($id_location='new', $retour='
     foreach($champs AS $champ){
         $options['format']='jma';
         $r=_request($champ);
-        // quelques navigateur en html5 retourne la date différement
-
+        
+        // quelques navigateur en html5 retournent la date différement
         if($horaires AND preg_match('#^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}$#',$r['date'])){
             list($annee,$mois,$jour) = explode('-',$r['date']);
            $r['date']=$jour.'/'.$mois.'/'.$annee; 

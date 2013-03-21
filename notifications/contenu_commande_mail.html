@@ -1,0 +1,37 @@
+[(#REM)
+
+  Squelette
+  (c) 2009 SPIP
+  Distribue sous licence GPL
+
+][(#HTTP_HEADER{Content-type: text/#ENV{format_envoi}[; charset=(#CHARSET)]})]#CACHE{0}
+<BOUCLE_art(LOCATIONS){id_location}{statut?}{tout}>
+
+<BOUCLE_contact(CONTACTS){id_auteur}>#SET{nom_client,#CIVILITE #NOM #PRENOM}</BOUCLE_contact>
+
+[(#ENV{qui}|=={client}|oui)
+<p><:location:bonjour:> #GET{nom_client}</p>
+<p><:location:merci_de_votre_reserve:></p>]
+[(#ENV{qui}|=={client}|non)
+<p><:location:une_reserve_de:>#GET{nom_client}</p>]
+
+<h3><:location:recapitulatif:></h3>
+
+<p><:location:reservation_numero:>#REFERENCE</p>
+<p><:location:reservation_date:> : #MAJ</p>
+<p><:location:modifier_reservation_statut:> [(#STATUT|location_lister_statuts)]</p>
+
+<p><:location:label_objet_loue:> </p>
+    [(#VAL|include_spip{inc/pipelines_ecrire})]
+    #SET{exec,#OBJET|trouver_objet_exec}
+    <a href="[(#ID_OBJET|generer_url_entite{#OBJET}|url_abolue)]">
+        #INFO_TITRE{#OBJET,#ID_OBJET}
+    </a>
+<hr />
+
+<p><a href="#URL_SITE_SPIP">#URL_SITE_SPIP</a></p>
+</BOUCLE_art>
+[(#ENV{format_envoi}|=={plain}|oui)
+	#FILTRE{supprimer_tags|filtrer_entites|trim}]
+[(#ENV{format_envoi}|=={plain}|non)
+	#FILTRE{filtrer_entites|trim}]

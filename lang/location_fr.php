@@ -9,6 +9,9 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	// A
 	'ajouter_lien_location' => 'Ajouter cette location',
 	
+    //B
+    'bonjour'=>'Bonjour',
+	
     //C
     'cfg_titre_parametrages'=>'Paramètres',
 
@@ -49,8 +52,15 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'label_moderation_priori' => 'Voulez vous activer la modération à priori pour les locations ?',	
 	'label_titre' => 'Titre',	
 	'label_type_location' => 'Type de location',
+	
+	// M
+	'merci_de_votre_reservation' => 'Merci de votre réservation',	
+    
 
 	// R
+	'recapitulatif' => 'Récapitulatif',	
+	'reservation_date' => 'Date de la réservation',	
+	'reservation_numero' => 'Numéro de réservation',		
 	'retirer_lien_location' => 'Retirer cette location',
 	'retirer_tous_liens_locations' => 'Retirer toutes les locations',
 
@@ -67,6 +77,12 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'titre_locations_rubrique' => 'Locations de la rubrique',
 	'titre_logo_location' => 'Logo de cette location',
 	'titre_page_configurer_location' => 'Configurer Location',	
+	
+    //U
+    'une_reservation_de'=>'Une réservation de',    
+	
+    //V
+    'votre_reservation_sur'=>'Votre réservation sur @nom@',
 );
 
 ?>

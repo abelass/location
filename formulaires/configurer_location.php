@@ -7,14 +7,23 @@
 if (!defined('_ECRIRE_INC_VERSION')) return;
 
 function formulaires_configurer_location_saisies_dist(){
-//les objets
- $liste_objets=lister_tables_objets_sql();
- $objets=array();
- foreach($liste_objets as $cle=>$valeur){
-   $valeur['editable'];
-     if(isset($valeur['principale']) AND $valeur['editable']=='oui'){
-        $objets[$valeur['type']]=_T($valeur['texte_objets']);
-        }
+
+    $liste_objets=lister_tables_objets_sql();
+
+
+ 
+    //les objets de spip
+     $objets=array();
+     foreach($liste_objets as $cle=>$valeur){
+       $valeur['editable'];
+         if(isset($valeur['principale']) AND $valeur['editable']=='oui'){
+            $objets[$valeur['type']]=_T($valeur['texte_objets']);
+            }
+     
+     //Le statuts du plugin
+     foreach($liste_objets['spip_locations']['statut_textes_instituer'] AS $statut=>$label){
+         $statuts[$statut]=_T($label);
+     }
      
      
  }
@@ -48,6 +57,7 @@ function formulaires_configurer_location_saisies_dist(){
                         'nom' => 'objets_location',
                         'label' => _T('location:label_objets_location'),
                         'datas'=>$objets,
+                        'defaut'=> $config['objets_location']
                     )
                 ),
                array(
@@ -55,21 +65,27 @@ function formulaires_configurer_location_saisies_dist(){
                     'options' => array(
                         'nom' => 'afficher_horaires',
                         'label' => _T('location:label_afficher_horaires'),
+                        'defaut'=> $config['afficher_horaires']
                     )
                 ),
                array(
-                    'saisie' => 'oui_non',
+                    'saisie' => 'selection',
                     'options' => array(
                         'nom' => 'statut_defaut',
+                        'datas' => $statuts,
+                        'defaut'=> 'valide',
+                        'cacher_option_intro' => 'on',
                         'label' => _T('location:label_statut_defaut'),
+                        'defaut'=> $config['statut_defaut']
                     )
                 ), 
                array(
-                    'saisie' => 'oui_non',
+                    'saisie' => 'selection',
                     'options' => array(
                         'nom' => 'statut_defaut_public',
                         'label' => _T('location:label_statut_defaut_public'),
-                        'explication'=>_T('location:explication_statut_defaut_public')
+                         'datas' => $statuts,
+                         'defaut'=> $config['statut_defaut_public']?$config['statut_defaut_public']:($config['statut_defaut']?$config['statut_defaut']:'attente'),
                     )
                 )                               
             )            
@@ -114,7 +130,7 @@ function formulaires_configurer_location_saisies_dist(){
 						'label' => _T('location:notifications_quand_label'),
 						'explication' => _T('location:notifications_quand_explication'),
 						'cacher_option_intro' => 'on',
-						//'datas' => location_lister_statuts(),
+						'datas' => $statuts,
 						'defaut' => $config['quand']
 					)
 				),

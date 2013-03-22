@@ -47,7 +47,7 @@ function formulaires_configurer_location_saisies_dist(){
 			'saisie' => 'fieldset',
 			'options' => array(
 				'nom' => 'fieldset_parametres',
-				'label' => _T('location:parametres_cfg_titre')
+				'label' => _T('location:cfg_titre_parametrages')
 			),
 
             'saisies' => array(

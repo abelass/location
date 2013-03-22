@@ -78,8 +78,9 @@ function formulaires_editer_location_charger_dist($id_location='new', $retour=''
         $valeurs['prive']=_request('exec');
         $statut=lire_config('location/statut_defaut_public',$statut);
     }
-    
-    //Les objets choisis dans via config 
+    $id_objet=_request('id_objet')?_request('id_objet'):$valeurs['id_objet'];
+
+    //Les objets choisis  via config 
     $objets=lire_config('location/objets_location',array());
     if(count($objets)>1){
         foreach($objets AS $o){
@@ -101,7 +102,7 @@ function formulaires_editer_location_charger_dist($id_location='new', $retour=''
     $valeurs['date']=date('Y-m-d G:i:s');
 
     
-    if(_request('id_objet'))$valeurs['_hidden'].='<input type="hidden" name="id_objet" value="'._request('id_objet').'"/>';
+    $valeurs['_hidden'].='<input type="hidden" name="id_objet" value="'.$id_objet.'"/>';
     if($objet)$valeurs['_hidden'].='<input type="hidden" name="objet" value="'.$objet.'"/>'; 
     $valeurs['_hidden'].='<input type="hidden" name="afficher_horaires" value="'.$valeurs['afficher_horaires'].'"/>'; 
 

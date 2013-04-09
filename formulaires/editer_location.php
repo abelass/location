@@ -62,10 +62,13 @@ function formulaires_editer_location_identifier_dist($id_location='new', $retour
  *     Valeurs de la ligne SQL du location, si connu
  * @param string $hidden
  *     Contenu HTML ajouté en même temps que les champs cachés du formulaire.
+   @param string $limite_objets
+ *     Where pour la requete des éléments â afficher
+
  * @return array
  *     Environnement du formulaire
  */
-function formulaires_editer_location_charger_dist($id_location='new', $retour='', $associer_objet='', $lier_trad=0, $config_fonc='', $row=array(), $hidden=''){
+function formulaires_editer_location_charger_dist($id_location='new', $retour='', $associer_objet='', $lier_trad=0, $config_fonc='', $row=array(), $hidden='',$limite_objets=''){
 	$valeurs = formulaires_editer_objet_charger('location',$id_location,'',$lier_trad,$retour,$config_fonc,$row,$hidden);
     include_spip('inc/config');
     $valeurs['afficher_horaires']=lire_config('location/afficher_horaires')?'oui':'';  
@@ -89,12 +92,13 @@ function formulaires_editer_location_charger_dist($id_location='new', $retour=''
          $objet=_request('objet')?_request('objet'):$valeurs['objet'];
         }
     else $objet=$objets[0];
+    include_spip('inc/pipelines_ecrire');
     $e = trouver_objet_exec($objet);
     $id_table_objet=$e['id_table_objet'];
     $table = table_objet_sql($objet);
-    
+
     //Les objets effectifs correspondant à l'objet sélectionné
-    if($id_table_objet AND $table)$sql=sql_select($id_table_objet,$table);
+    if($id_table_objet AND $table)$sql=sql_select($id_table_objet,$table,$limite_objets);
     while($data=sql_fetch($sql)){
         $valeurs['id_objets_dispo'][$data[$id_table_objet]]=generer_info_entite($data[$id_table_objet],$objet,'titre');
     }

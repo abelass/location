@@ -55,6 +55,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	
 	// M
 	'merci_de_votre_reservation' => 'Merci de votre réservation',	
+	'modifier_reservation_statut' => 'Statut de la réservation',		
     
     //N
     'notifications_activer_explication' => 'Envoyer par mail des notifications de commande ?',
@@ -108,6 +109,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'titre_page_configurer_location' => 'Configurer Location',	
 	
     //U
+    'une_reservation_sur'=>'Une réservation sur @nom@',       
     'une_reservation_de'=>'Une réservation de',    
 	
     //V

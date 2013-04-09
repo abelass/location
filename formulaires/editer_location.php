@@ -71,15 +71,15 @@ function formulaires_editer_location_identifier_dist($id_location='new', $retour
 function formulaires_editer_location_charger_dist($id_location='new', $retour='', $associer_objet='', $lier_trad=0, $config_fonc='', $row=array(), $hidden='',$limite_objets=''){
 	$valeurs = formulaires_editer_objet_charger('location',$id_location,'',$lier_trad,$retour,$config_fonc,$row,$hidden);
     include_spip('inc/config');
-    $valeurs['afficher_horaires']=lire_config('location/afficher_horaires')?'oui':'';  
+    $config=lire_config('location');
+    $valeurs['afficher_horaires']=$config['afficher_horaires']?'oui':'';  
     
-    $statut=lire_config('location/statut_defaut','valide');
+   
+    $statut=$valeurs['statut']?$valeurs['statut']:$config['statut_defaut']?$config['statut_defaut']:'valide';
     
     //Traitement différents pour l'espace public
-    $statut=$valeurs['statut'];
-    if(!$statut AND _request('exec')){
-        $valeurs['prive']=_request('exec');
-        $statut=lire_config('location/statut_defaut_public',$statut);
+    if(!_request('exec')){
+        $statut=$config['statut_defaut_public']?$config['statut_defaut_public']:$statut;
     }
     $id_objet=_request('id_objet')?_request('id_objet'):$valeurs['id_objet'];
 

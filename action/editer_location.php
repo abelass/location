@@ -109,8 +109,8 @@ function location_instituer($id_location, $c, $calcul_details=true){
 
         if (autoriser('modifier', 'locations', $id_commande))
             $statut = $champs['statut'] = $s;
-        else
-        spip_log("editer_location $id_location refus " . join(' ', $c),'location');
+        elseif(!_request('exec')) $statut = $champs['statut'] = $s;
+        else spip_log("editer_location $id_location refus " . join(' ', $c),'location');
 
     }
 
@@ -122,9 +122,7 @@ function location_instituer($id_location, $c, $calcul_details=true){
         $verifier_reservations=charger_fonction('verifier_reservations','inc');
         $erreur_reservation=$verifier_reservations($row['objet'],$row['id_objet'],$row['date_debut'],$row['date_fin'],$id_location,$horaires);
         
-     //echo serialize($erreur_reservation);
     if(count($erreur_reservation)>0){
-       //echo 'erreur';
        set_request('statut',$statut_ancien);
        $champs['statut']=$statut_ancien;
        return _T("location:erreur_verifier_date");
@@ -176,22 +174,22 @@ function location_instituer($id_location, $c, $calcul_details=true){
     
     // Notifications
     include_spip('inc/config');
-    $config = lire_config('commandes');
+    $config = lire_config('location');
     if (($statut != $statut_ancien) &&
          ($config['activer']) &&
          (in_array($statut,$config['quand'])) &&
          ($notifications = charger_fonction('notifications', 'inc', true))
         ) {
-
+         
         // Determiner l'expediteur
         $options = array();
         if( $config['expediteur'] != "facteur" )
             $options['expediteur'] = $config['expediteur_'.$config['expediteur']];
 
         // Envoyer au vendeur et au client
-        $notifications('commande_vendeur', $id_commande, $options);
+        $notifications('location_vendeur', $id_location, $options);
         if($config['client'])
-            $notifications('commande_client', $id_commande, $options);
+            $notifications('location_client', $id_location, $options);
     }
 
     return'';

@@ -1,3 +1,4 @@
+   
 <div class='formulaire_spip formulaire_editer formulaire_#FORM formulaire_#FORM-#ENV{id_location,nouveau}'>
 	[<p class="reponse_formulaire reponse_formulaire_ok">(#ENV**{message_ok})</p>]
 	[<p class="reponse_formulaire reponse_formulaire_erreur">(#ENV*{message_erreur})</p>]
@@ -19,28 +20,27 @@
 				horaire=#ENV{afficher_horaires},
 				explication=<:location:explication_date_fin:> })]
 			
-			[(#REM) cacher dans le formulaire public]
-			[(#ENV{prive}|oui)
-			     [(#ENV{objets_dispo}|oui)
-                    [(#SAISIE{
-                        selection, objet,obligatoire=oui,
-                        label=<:location:label_objet:>,
-                        datas=#ENV{objets_dispo}}
-                        )]
-                    ]
-                [(#ENV{id_objets_dispo}|?{
-                    [(#SAISIE{
-                        selection,id_objet,obligatoire=oui,
-                        label=<:location:label_element:>,
-                        datas=#ENV{id_objets_dispo}}
-                        )]
-                    ,
-                    [(#SAISIE{
-                        input,id_objet,obligatoire=oui,
-                        label=<:location:label_id_objet:>,}
-                        )]
-                    })]
-                ]
+	     [(#ENV{objets_dispo}|oui)
+            [(#SAISIE{
+                selection, objet,obligatoire=oui,
+                label=<:location:label_objet:>,
+                datas=#ENV{objets_dispo}}
+                )]
+            ]
+
+        [(#ENV{id_objets_dispo}|?{
+            [(#SAISIE{
+                selection,id_objet,obligatoire=oui,
+                label=<:location:label_element:>,
+                datas=#ENV{id_objets_dispo}}
+                )]
+            ,
+            [(#SAISIE{
+                input,id_objet,obligatoire=oui,
+                label=<:location:label_id_objet:>,}
+                )]
+            })]
+
                 
             [(#SAISIE{
                 textarea,commentaire,
@@ -51,7 +51,6 @@
 			[(#SAISIE{input, type_location,
 				label=<:location:label_type_location:>})]
 				]
-
 		</ul>
 		[(#REM) ajouter les saisies supplementaires : extra et autre, a cet endroit ]
 		<!--extra-->

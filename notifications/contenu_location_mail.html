@@ -7,9 +7,7 @@
 ][(#HTTP_HEADER{Content-type: text/#ENV{format_envoi}[; charset=(#CHARSET)]})]#CACHE{0}
 <BOUCLE_art(LOCATIONS auteurs_liens){id_location}{statut?}{tout}>
 
-<BOUCLE_contact(AUTEURS auteurs_liens){objet=location}{id_objet=#ID_LOCATION}>
-    #SET{nom_client,#CIVILITE #NOM}
-</BOUCLE_contact>
+<BOUCLE_contact(CONTACTS){id_auteur}>#SET{nom_client,#CIVILITE #NOM #PRENOM}</BOUCLE_contact>
 
 [(#ENV{qui}|=={client}|oui)
 <p><:location:bonjour:> #GET{nom_client}</p>
@@ -20,7 +18,7 @@
 <h3><:location:recapitulatif:></h3>
 
 <p><:location:reservation_numero:>#ID_LOCATION</p>
-<p><:location:reservation_date:> : [(#DATE_DFEBUT|adffdate{d/m/Y})] - [(#DATE_DFEBUT|adffdate{d/m/Y})]<</p>
+<p><:location:reservation_date:> : [(#MAJ|adffdate{d/m/Y})]</p>
 <p><:location:modifier_reservation_statut:> [(#STATUT|location_lister_statuts)]</p>
 
 <p><:location:label_objet_loue:> </p>

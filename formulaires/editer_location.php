@@ -98,9 +98,12 @@ function formulaires_editer_location_charger_dist($id_location='new', $retour=''
     $table = table_objet_sql($objet);
 
     //Les objets effectifs correspondant à l'objet sélectionné
-    if($id_table_objet AND $table)$sql=sql_select($id_table_objet,$table,$limite_objets);
+    if($id_table_objet AND $table)$sql=sql_select('*'  ,$table,$limite_objets);
     while($data=sql_fetch($sql)){
-        $valeurs['id_objets_dispo'][$data[$id_table_objet]]=generer_info_entite($data[$id_table_objet],$objet,'titre');
+        // Si l'objet est traduit on prend l'original
+        if(isset($data['id_trad']) AND $data['id_trad']>0)$id=$data['id_trad'];
+        else $id=$data[$id_table_objet];
+        $valeurs['id_objets_dispo'][$id]=generer_info_entite($data[$id_table_objet],$objet,'titre');
     }
     
     $valeurs['date']=date('Y-m-d G:i:s');
